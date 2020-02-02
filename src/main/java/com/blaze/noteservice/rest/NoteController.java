@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.*;
 public interface NoteController {
 
     @ApiOperation(value = "Create a new notebook")
-    @RequestMapping(value = "/notebook", produces = "application/json")
-    ResponseEntity<String> createNotebook(@RequestParam("name") String name);
+    @RequestMapping(value = "/notebook", method = RequestMethod.POST, produces = "application/json")
+    ResponseEntity<Notebook> createNotebook(@RequestParam("name") String name);
 
     @ApiOperation(value = "Create a new note within a notebook")
-    @RequestMapping(value = "/note", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    ResponseEntity<String> createNote(@RequestParam("notebookId") int notebookId, @RequestBody Note note);
+    @RequestMapping(value = "/note", method = RequestMethod.POST, produces = "application/json")
+    ResponseEntity<Note> createNote(@RequestParam("title") String title, @RequestParam("body") String body, @RequestParam("notebookId") int notebookId);
 
     @ApiOperation(value = "Update a note")
     @RequestMapping(value = "/note/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-    ResponseEntity<String> updateNote(@PathVariable("id") int noteId, @RequestBody Note note);
+    ResponseEntity<Note> updateNote(@PathVariable("id") int noteId, @RequestBody Note note);
 
     @ApiOperation(value = "Get a notebook (optionally, filter by a tag)")
     @RequestMapping(value = "/notebook/{id}", method = RequestMethod.GET, produces = "application/json")

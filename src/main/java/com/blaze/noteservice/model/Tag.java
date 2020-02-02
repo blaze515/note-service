@@ -6,10 +6,12 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "Tags")
+@Table(name = "tags")
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id")
     private int id;
+    @Column(name="tag")
     private String tag;
 }
