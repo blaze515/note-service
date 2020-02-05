@@ -30,11 +30,6 @@ public class Note implements Serializable {
     @Column(name="notebook_id")
     private int notebookId;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "notes")
-//    @JsonIgnore
-//    private Notebook notebook;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="note_tag",

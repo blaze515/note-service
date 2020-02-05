@@ -87,7 +87,7 @@ public class NoteService {
     }
 
     public Boolean deleteNote(int noteId) {
-        Boolean exists = this.noteRepository.existsById(noteId);
+        boolean exists = this.noteRepository.existsById(noteId);
         if (exists){
             this.noteRepository.deleteById(noteId);
             this.noteRepository.flush();
