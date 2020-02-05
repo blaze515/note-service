@@ -12,6 +12,10 @@ import javax.transaction.Transactional;
 public interface NoteRepository extends JpaRepository<Note, Integer>, NoteCustom {
 
     @Modifying
-    @Query(value = "UPDATE notes SET title=?#{note.title}, body=?#{note.body}, last_modified=current_timestamp WHERE id = :note_id", nativeQuery = true)
-    Note updateNote(@Param("note_id") int noteId, @Param("note") Note note);
+    @Query(value = "UPDATE notes SET title=:#{#note.title}, body=:#{#note.body}, last_modified=current_timestamp WHERE id = :note_id", nativeQuery = true)
+    int updateNote(@Param("note_id") int noteId, @Param("note") Note note);
+
+    @Modifying
+    @Query(value = "INSERT INTO note_tag(tag_id,note_id) VALUES(:tag_id,:note_id)", nativeQuery = true)
+    int addNoteTag(@Param("note_id") int noteId, @Param("tag_id") int tagId);
 }

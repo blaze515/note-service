@@ -1,8 +1,10 @@
 package com.blaze.noteservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -10,10 +12,11 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "notes")
-public class Note {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Note implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private int id;
     @Column(name="title")
@@ -27,12 +30,17 @@ public class Note {
     @Column(name="notebook_id")
     private int notebookId;
 
-    @ManyToMany
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "notes")
+//    @JsonIgnore
+//    private Notebook notebook;
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="note_tag",
-            joinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "note_id", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "note_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
-    private List<Tag> tags;
+    private List<Tag> pinnedTags;
 
 }
